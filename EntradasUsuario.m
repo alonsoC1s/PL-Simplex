@@ -1,10 +1,10 @@
 %% Read cost function, max/min, number of constraints
 options.Resize = 'on';
-dlgtitle = 'Datos del problema de programación Lineal';
+dlgtitle = 'Datos del problema de programaciÃ³n Lineal';
 
 prompt = {'Vector de costos (vector)',...
     'Max (enter 1) Min (enter 2)',...
-    'Número de restricciones'};
+    'NÃºmero de restricciones'};
 Formato = {'[]', '', ''};
 dims = [1 40];
 answer = inputdlg(prompt, dlgtitle, dims,Formato,options);
@@ -32,7 +32,7 @@ Formato = {'[]'};
 answer = inputdlg(prompt,dlgtitle,1,Formato,options);
 A = str2num(answer{1});
 
-%% Fourth Window: vector b
+%% Ventana4: vector b
 dlgtitle = 'vector de restricciones';
 prompt = {'introduce el vector b'};
 Formato = {'[]'}; %Matlbal vector
