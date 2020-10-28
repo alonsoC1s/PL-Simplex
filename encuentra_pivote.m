@@ -3,17 +3,17 @@ function [i,j] = encuentra_pivote(A)
     % Se asume que ya hay una identidad. Si no la hay se debió manejar antes
     [m, n] = size(A);
     b = A(:, n);
-    costos = A(m, :);
+    costos = A(m, 1:n-1);
 
     % Identificamos la columna pivote (j)
-    for j = 1:n
+    for j = 1:n-1
         if costos(j) < 0 
             break
         end
     end
 
     % Checamos si hubo costo negativo
-    if j == n
+    if j == n-1
         % Recorrio todo y no hay. No hay pivote
         i = 0; j = 0; % Indice 0 (no permitido) afuera se entiende como: no hay pivote
         return 
