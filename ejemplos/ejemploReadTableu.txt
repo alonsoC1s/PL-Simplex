@@ -1,0 +1,53 @@
+fprintf("Un ejemplo en el que usamos big M porque no tenemos al origen")
+Un ejemplo en el que usamos big M porque no tenemos al origen
+A = readTableu("tablaM.csv")
+
+T =
+
+  5x5 table
+
+    Var1    Var2    Var3       Var4       Var5
+    ____    ____    ____    __________    ____
+
+     1       2       3      {'<='    }     1  
+     3       4       9      {'>='    }     2  
+     8       9       2      {'>='    }     1  
+     9       9       9      {'='     }     3  
+     1       2       4      {0x0 char}     0  
+
+
+A =
+
+     1     2     3     1     0     0     0   900     0     0     0     1
+     3     4     9     0    -1     0     0     0   900     0     0     2
+     8     9     2     0     0    -1     0     0     0   900     0     1
+     9     9     9     0     0     0     0     0     0     0   900     3
+     1     2     4     0     0     0     0   900   900   900   900     0
+
+fprintf("Ahora un ejemplo que si tiene el origen\n")
+Ahora un ejemplo que si tiene el origen
+A = readTableu("tablaOrig.csv")
+
+T =
+
+  5x5 table
+
+    Var1    Var2    Var3       Var4       Var5
+    ____    ____    ____    __________    ____
+
+     1       2       3      {'<='    }     1  
+     3       4       9      {'<='    }     2  
+     8       9       2      {'<='    }     1  
+     9       9       9      {'<='    }     3  
+     1       2       4      {0x0 char}     0  
+
+
+A =
+
+     1     2     3     1     0     0     0     1
+     3     4     9     0     1     0     0     2
+     8     9     2     0     0     1     0     1
+     9     9     9     0     0     0     1     3
+     1     2     4     0     0     0     0     0
+
+diary off

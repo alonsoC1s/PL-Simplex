@@ -1,24 +1,25 @@
-function [A, bigM] = readTableu(filename)
+function A = readTableu(filename)
 	T = readtable(filename)
 	[m, n] = size(T);
 
 	% Se assume una tabla con una forma como 
-	% 1, 2, 3, "<=", 1, -4
-	% 3, 4, 9, ">=", 2, -5
-	% 8, 9, 2, ">=", 1, -6
-	% donde las últimas 3 columnas son
-	% restricción, b, costo respectivamente
+	% 1, 2, 3, "<=", 1 
+	% 3, 4, 9, ">=", 2
+	% 8, 9, 2, ">=", 1
+	% 1, 3, 4, , 0
+	% Donde la última columna es vector b y la última fila es vector de costos
 
-	B = T{:, 1:n-3}; % Recupera solo matriz de restricciones
+	A_p = T{1:m-1, 1:n-2}; % Recupera solo matriz de restricciones
 
-	rests = T{:,n-2}; % Recupera strings como "<=" para construir matriz de holguras y excesos
+	rests = T{:,n-1}; % Recupera strings como "<=" para construir matriz de holguras y excesos
 
-	bes = T{:,n-1}; % Recupera vector b
-	costos = T{:,n};% Recupera costos de función obj.
+	bes = T{1:m-1, n}; % Recupera vector b ignorando el ultimo elemento porque es cero
+	costos = T{m,1:n-2};% Recupera costos de función obj.
 
 	% Leyendo restricciones para crear matriz
-	Hs = eye(m);
-	for r = 1:m
+	Hs = eye(m-1); % Nombro Hs ("aches") pensando en "h"olguras y "e"xcesos
+	bigM = false;
+	for r = 1:m;
 		restriccion = rests(r);
 		if restriccion == ">="
 			Hs(:,r) = -Hs(:,r);
@@ -29,5 +30,16 @@ function [A, bigM] = readTableu(filename)
 		end	
 	end
 
-	A = [B, Hs, bes; costos', zeros(1,m)];
+	% Si es necesario usar bigM la acompletamos en este paso. Si no, regresar matriz estándar
+	if bigM
+		% Creando matriz de M's
+		small_m = 100 * max(A_p, [], 'all'); % max de todo A no por columnas
+		M = diag(small_m * ones(1,m-1));
+
+		% Concatenando y retornando
+		A = [A_p, Hs, M, bes; costos, zeros(1,m-1), small_m * ones(1,m-1), 0];
+	else
+		% Concatenando y retornando
+		A = [A_p, Hs, bes; costos, zeros(1,m)];
+	end
 end
