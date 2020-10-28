@@ -34,7 +34,7 @@ function A = readTableu(filename)
 	if bigM
 		% Creando matriz de M's
 		small_m = 100 * max(A_p, [], 'all'); % max de todo A no por columnas
-		M = diag(small_m * ones(1,m-1));
+		M = diag(ones(1,m-1));
 
 		% Concatenando y retornando
 		A = [A_p, Hs, M, bes; costos, zeros(1,m-1), small_m * ones(1,m-1), 0];
