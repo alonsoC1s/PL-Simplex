@@ -1,7 +1,7 @@
 function [A] = identariza(B)
 	% Primero checamos si ya hay una identidad en la matriz de entrada B
 	% Extraigo información de la matriz en forma estándar
-	[m,n] = size(B)
+	[m,n] = size(B);
 	coefs = B(1:m-1, 1:m-2) % Matriz de coefs.
 	z = zeros(m-2, 1); % origen in R^m-2
 	b = B(1:m-1, n) % restricciones

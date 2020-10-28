@@ -1,4 +1,5 @@
 function [i,j] = encuentra_pivote(A)
+    %Salida de la funci�n [i,j] renglon i, columna j
     % Iterando sobre costos de izq a derecha as per Bland
     % Se asume que ya hay una identidad. Si no la hay se debió manejar antes
     [m, n] = size(A);
@@ -8,7 +9,6 @@ function [i,j] = encuentra_pivote(A)
     % Identificamos la columna pivote (j)
     hayPivote = false;
     for j = 1:n-1
-	fprintf("Probando con %i\n", j);
         if costos(j) < 0 
 	    hayPivote = true;
             break
