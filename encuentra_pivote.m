@@ -1,4 +1,4 @@
-function [i,j,epi] = encuentra_pivote(A)
+function [i, j, epi] = encuentra_pivote(A)
     %Salida de la funci�n [i,j] renglon i, columna j
     % Iterando sobre costos de izq a derecha as per Bland
     % Se asume que ya hay una identidad. Si no la hay se debió manejar antes
@@ -19,7 +19,7 @@ function [i,j,epi] = encuentra_pivote(A)
     % Checamos si hubo costo negativo
     if hayPivote  == false
         % Recorrio todo y no hay. No hay pivote
-        i = 0; j = 0; % Indice 0 (no permitido) afuera se entiende como: no hay pivote
+        i = 0; j = 0, epi=[]; % Indice 0 (no permitido) afuera se entiende como: no hay pivote
         return 
     end
 
