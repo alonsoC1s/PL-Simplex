@@ -1,4 +1,4 @@
-function [i,j] = encuentra_pivote(A)
+function [i,j,epi] = encuentra_pivote(A)
     %Salida de la funci�n [i,j] renglon i, columna j
     % Iterando sobre costos de izq a derecha as per Bland
     % Se asume que ya hay una identidad. Si no la hay se debió manejar antes
