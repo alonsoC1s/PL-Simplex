@@ -7,6 +7,7 @@ function [i,j,epi] = encuentra_pivote(A)
     costos = A(m, 1:n-1);
 
     % Identificamos la columna pivote (j)
+    % Esto se puede simplificar con un indice booleano
     hayPivote = false;
     for j = 1:n-1
         if costos(j) < 0 
