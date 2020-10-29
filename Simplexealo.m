@@ -6,5 +6,6 @@ function A = Simplexealo(A)
         [i,j] = encuentra_pivote(A);
         
     end
+    % Aqui verificamos condiciones de terminación.
     
 end
