@@ -24,6 +24,9 @@ function [i, j, epi] = encuentra_pivote(A)
     end
 
     % Identificamos una columna pivote. Ahora vemos que entrada de la columna es pivote
-    epsilons = b ./ (A(1:m-1 ,j) .* (A(1:m-1 ,j ) > 0)) % Dividiendo b entre los coefs de col. A no-negativos 
+    Aj = A(1:m-1, j);
+    % Hacemos un índice que vuelve los no candidatos de Aj en NaNs
+    Idx = Aj .* (Aj > 0); Idx(Idx==0) = nan;
+    epsilons = b ./ Aj .* Idx; % Dividiendo b entre los coefs de col. A no-negativos 
     [epi, i] = min(epsilons(not(isinf(epsilons)))); % Puede regresar vector vacío en i => no hay solución
 end 
