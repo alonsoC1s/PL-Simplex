@@ -1,6 +1,6 @@
-function [T, ts, D] = benchmark(maxD)
+function [Results] = benchmark(maxD)
 	% Creando problema Klee-Minty para dims de 2 a maxD
-	
+	Results = [];	
 	for d = 2:maxD
 		R = vander(10 * ones(1, d));
 		cs = R(d, :);
@@ -16,6 +16,9 @@ function [T, ts, D] = benchmark(maxD)
 		A = [A, eye(d), r; -cs, zeros(1,d+1)];
 
 		% Corriendo simplex sobre problema Klee-Minty
-		A = Simplexealo(A)
+		fprintf("Aplicando simplex a Klee-Minty dim %d", d)
+		[A, t, steps] = Simplexealo(A);
+
+		Results = [Results; d, steps, t];
 	end
 end	
