@@ -14,7 +14,7 @@ function B = pivotea(A, i, j)
 
 	% Construyendo matriz elemental que hace el pivoteo 
 	E(:,i) = -efes;  
-	E(i,:) = -E(i,:) % Feo. Corrige error de signo  
+	E(i,:) = -E(i,:); % Feo. Corrige error de signo  
 	
 	% Premultiplicando por elemental para pivotear
 	B = E * A;

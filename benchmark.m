@@ -1,24 +1,21 @@
 function [T, ts, D] = benchmark(maxD)
 	% Creando problema Klee-Minty para dims de 2 a maxD
 	
-	for d = 3:maxD
-		d
-		% Vander de utilidad
-		V = fliplr(vander( 5 * ones(1,d+1)));
-		% Creamos matriz de potencias de 2
-		T = vander(2 * ones(1,d));
-		cs = T(d, 2:d);
+	for d = 2:maxD
+		R = vander(10 * ones(1, d));
+		cs = R(d, :);
+		r = fliplr(cs)';
 
-		% Recortamos 2^1 porque no hace falta, y "triangularizamos" T
-		T = [T(:, 1:d-2), T(:, d)];
-		T = fliplr(tril(fliplr(T)));
+		% Creando matriz de coeficientes Klee-Minty
+		A = eye(d);
+		for i = 1:d-1
+			A = A + diag(2 * 10^i * ones(1, d-i), -i);
+		end
 
-		% Haciendo los costos de la función objetivo en ultimo renglon
-		T(d, :) = -cs;
-		
-		% Tabla final Klee-Minty de dimension D
-		T = [T, eye(d, d-1), [V(d, 2:d), 0]'];
+		% Concatenando restricciones y costos
+		A = [A, eye(d), r; -cs, zeros(1,d+1)];
 
-		T = Simplexealo(T);
+		% Corriendo simplex sobre problema Klee-Minty
+		A = Simplexealo(A)
 	end
 end	
