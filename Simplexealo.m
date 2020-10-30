@@ -1,14 +1,16 @@
-function A = Simplexealo(A)
+function [A, t, steps] = Simplexealo(A)
 
 	% Encontramos el primer pivote y empezamos a medir tiempo
-	tic
+	tStart = tic;
 	[i, j, epi] = encuentra_pivote(A);
 	 
+	steps = 0;
 	while  i, j ~= 0;
-		A =  pivotea(A, i,j)
+		A =  pivotea(A, i,j);
 		[i,j, epi] = encuentra_pivote(A);     
+		steps = steps + 1;
 	end
-	toc
+	t = toc(tStart);
 
 	[m, n] = size(A);
 	% Checando condiciones de terminación de simplex
@@ -22,7 +24,7 @@ function A = Simplexealo(A)
     
 	% Mostrando solucion final
 	% Recuperamos matriz de variables originales y checamos cuales son básicas
-	vars = A(:, 1:n-m)
+	vars = A(:, 1:n-m);
 	b = A(1:m-1, n); 
 
 	% Usamos find para enontrar entradas > 0. Si hay más de n-m no puede ser identidad completa y checamos 1 por 1
