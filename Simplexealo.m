@@ -9,6 +9,10 @@ function [A, t, steps] = Simplexealo(A)
 		A =  pivotea(A, i,j);
 		[i,j, epi] = encuentra_pivote(A);     
 		steps = steps + 1;
+
+		if isnan(epi)
+			break
+		end
 	end
 	t = toc(tStart);
 
