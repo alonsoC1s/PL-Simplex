@@ -1,3 +1,5 @@
 .*.m.swp
 /benchmarks
 .vscode/
+
+node_modules

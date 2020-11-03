@@ -48,6 +48,6 @@ function B = readTableu(filename)
     
     B = Simplexealo(A);
     % Guarda en un csv
-    writematrix(B, 'tablas/server_output.csv')
+    writematrix(B, 'tablas/server_end.csv')
     
 end
