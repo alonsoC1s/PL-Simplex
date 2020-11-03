@@ -1,4 +1,5 @@
-function B = readTableu(filename)
+function A = readTableu(filename)
+
 	T = readtable(filename)
 	[m, n] = size(T);
 
@@ -45,9 +46,4 @@ function B = readTableu(filename)
 		% Concatenando y retornando
 		A = [A_p, Hs, bes; costos, zeros(1,m)];
     end
-    
-    B = Simplexealo(A);
-    % Guarda en un csv
-    writematrix(B, 'tablas/server_output.csv')
-    
 end
