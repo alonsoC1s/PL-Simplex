@@ -1,4 +1,4 @@
-function A = readTableu(filename)
+function B = readTableu(filename)
 	T = readtable(filename)
 	[m, n] = size(T);
 
@@ -44,5 +44,8 @@ function A = readTableu(filename)
 	else
 		% Concatenando y retornando
 		A = [A_p, Hs, bes; costos, zeros(1,m)];
-	end
+    end
+    
+    B = Simplexealo(A);
+    
 end
