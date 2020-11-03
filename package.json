@@ -1,0 +1,14 @@
+{
+  "name": "Simplex",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/downvec/-PL--Simplex.git",
+  "author": "Francisco Lopez Franco <franciscojavierlf15@gmail.com>",
+  "license": "MIT",
+  "private": false,
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "csv-parser": "^2.3.3",
+    "express": "^4.17.1"
+  }
+}
