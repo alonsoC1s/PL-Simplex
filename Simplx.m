@@ -25,11 +25,9 @@ function Simplx(filename, varargin)
             pasos{:, p} = struct('iter', p, 'i', i, 'j', j, 'A', Tabla);
         end
 
-        final = struct('pas', pasos);
-        
         % Escribiendo al archivo
         fid = fopen("simplxOutput.json", "w");
-        fprintf(fid, jsonencode(final));
+        fprintf(fid, jsonencode(pasos));
 
     else
         disp("Showcase")

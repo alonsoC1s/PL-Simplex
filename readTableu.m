@@ -46,4 +46,5 @@ function A = readTableu(filename)
 		% Concatenando y retornando
 		A = [A_p, Hs, bes; costos, zeros(1,m)];
     end
+    
 end

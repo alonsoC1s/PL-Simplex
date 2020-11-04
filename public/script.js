@@ -13,6 +13,7 @@ function run() {
     dataType:'json',
     success: function(data){
       //On ajax success do this
+      console.log(data)
       readResult()
     },
     error: function(xhr, ajaxOptions, thrownError) {
@@ -40,7 +41,7 @@ function readResult() {
     dataType:'json',
     success: function(data){
       //On ajax success do this
-      readResult()
+      showResult(data)
     },
     error: function(xhr, ajaxOptions, thrownError) {
        //On error do this
@@ -53,6 +54,53 @@ function readResult() {
          }
      }
   });
+}
+
+/**
+ * Muestra los resultados obtenidos.
+ * @param {*} data 
+ */
+function showResult(data) {
+  const display = $('#display').text('')
+  for (const iter of data) {
+    const div = $('<div>')
+    // Muestra la iteración
+    div.append($('<p>').text(`Iteración ${iter.iter}`))
+    // Muestra la matriz
+    const matrix = iter.A
+    const table = $('<table>').addClass('table table-bordered')
+    const thead = $('<thead>')
+    const tbody = $('<tbody>')
+    table.append(thead)
+    table.append(tbody)
+    for (let row = 0; row < matrix.length; row++) {
+      const tr = $('<tr>')
+      for (let col = 0; col < matrix[row].length; col++) {
+        const val = matrix[row][col]
+        const td = $('<td>').text(Number.isInteger(val) ? val : val.toFixed(3))
+        // Agrega el pivote
+        if (iter.i - 1 === row && iter.j - 1 === col)
+          td.addClass('pivote')
+        tr.append(td)
+      }
+      tbody.append(tr)
+    }
+    // Agrega el header de la tabla
+    const trhead = $('<tr>')
+    for (let i = 1; i <= matrix[0].length; i++) {
+      // Variables
+      if (i < matrix[0].length)
+        trhead.append($('<th>').text('x').append($('<sub>').text(i)))
+      // b
+      else trhead.append($('<th>').text('b'))
+    }
+    thead.append(trhead)
+    // Agrega la tabla al bloque
+    div.append(table)
+
+    // Finalmente agrega div
+    display.append(div)
+  }
 }
 
 /**
@@ -93,10 +141,10 @@ function generateObjective() {
   // Genera función objetivo
   const div = $('#objective').text('')
   let text
-  for (let i = 0; i < numVariables; i++) {
+  for (let i = 1; i <= numVariables; i++) {
     div.append($('<input>').addClass('form-control').attr('type', 'number'))
     text = $('<label>').text('x').append($('<sub>').text(i))
-    if (i < numVariables - 1)
+    if (i < numVariables)
       text.append(' + ')
     div.append(text)
   }
@@ -114,10 +162,10 @@ function addRestriction() {
   const div = $('#restrictions')
   let text
   const variables = $('<div>').addClass('variables-display')
-  for (let i = 0; i < numVariables; i++) {
+  for (let i = 1; i <= numVariables; i++) {
     variables.append($('<input>').addClass('form-control').attr('type', 'number'))
     text = $('<label>').text('x').append($('<sub>').text(i))
-    if (i < numVariables - 1)
+    if (i < numVariables)
       text.append(' + ')
     variables.append(text)
   }

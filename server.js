@@ -22,10 +22,9 @@ app.listen(port, () => {
 })
 
 app.get('/read', async (req, res) => {
-  fs.readFile('tablas/server_output.csv', 'utf8', (err, data) => {
+  fs.readFile('simplxOutput.json', 'utf8', (err, data) => {
     if (err) return console.log(err);
-    const table = 
-    // Va renglón por renglón
+    res.send(data)
   });
 })
 
@@ -42,7 +41,7 @@ async function solveLinearProblem(lp) {
   })
   // Luego corre matlab
   return new Promise(resolve => {
-    exec("matlab -batch \"readTableu('tablas/server_input.csv')\"", (error, stdout, stderr) => {
+    exec("matlab -batch \"Simplx('tablas/server_input.csv', true)\"", (error, stdout, stderr) => {
       if (error) {
         console.log(`error: ${error.message}`);
         return;
