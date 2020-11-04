@@ -41,7 +41,7 @@ async function solveLinearProblem(lp) {
   })
   // Luego corre matlab
   return new Promise(resolve => {
-    exec("matlab -batch \"readTableu('tablas/server_input.csv')\"", (error, stdout, stderr) => {
+    exec("matlab -batch \"Simplx('tablas/server_input.csv', true)\"", (error, stdout, stderr) => {
       if (error) {
         console.log(`error: ${error.message}`);
         return;

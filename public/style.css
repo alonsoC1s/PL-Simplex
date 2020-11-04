@@ -30,3 +30,35 @@ input::-webkit-inner-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
+
+/**
+ *Donde se muestran las tablas.
+ **/
+#display div {
+  padding: 10px;
+}
+
+#display .table {
+  width: 500px;
+  margin: auto;
+}
+
+/** Último renglón **/
+#display .table tbody tr:last-child {
+  border-top: 2px solid black;
+}
+
+/** Última columna **/
+#display .table tbody tr td:last-child {
+  border-left: 2px solid black;
+}
+
+/** Pivote **/
+#display .table tbody .pivote {
+  color: red;
+}
+
+/** z **/
+#display .table tbody tr:last-child td:last-child {
+  font-weight: bold;
+}
