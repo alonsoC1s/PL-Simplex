@@ -38,7 +38,7 @@ function A = readTableu(filename)
 		M = diag(ones(1,m-1));
 
 		% Dejando la identidad de una vez restando a costos relativos small_m
-		costos = costos - small_m * ones(1, n-2);
+		costos = costos - small_m * ones(1, n-2); % TODO: Esto podría estar mal!
 
 		% Concatenando y retornando
 		A = [A_p, Hs, M, bes; costos, zeros(1,2*m-1)];

@@ -34,7 +34,7 @@ function [A, t, steps, Is, Js, Intermedias] = Simplexealo(A)
 	end  
     
 	% Mostrando solucion final
-	% Recuperamos matriz de variables originales y checamos cuales son básicas
+	% Recuperamos matriz de variables de decisión y checamos cuales son básicas
 	vars = A(:, 1:n-m);
 	b = A(1:m-1, n); 
 
