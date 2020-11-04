@@ -40,7 +40,7 @@ function readResult() {
     dataType:'json',
     success: function(data){
       //On ajax success do this
-      readResult()
+      console.log(data)
     },
     error: function(xhr, ajaxOptions, thrownError) {
        //On error do this

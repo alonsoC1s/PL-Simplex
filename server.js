@@ -22,10 +22,9 @@ app.listen(port, () => {
 })
 
 app.get('/read', async (req, res) => {
-  fs.readFile('tablas/server_output.csv', 'utf8', (err, data) => {
+  fs.readFile('simplxOutput.json', 'utf8', (err, data) => {
     if (err) return console.log(err);
-    const table = 
-    // Va renglón por renglón
+    res.send(data)
   });
 })
 
