@@ -1,4 +1,7 @@
-function [A, t, steps] = Simplexealo(A)
+function [A, t, steps, Is, Js, Intermedias] = Simplexealo(A)
+
+	% Metadatos de pivoteo
+	Is = []; Js = []; Intermedias = [];
 
 	% Encontramos el primer pivote y empezamos a medir tiempo
 	tStart = tic;
@@ -7,8 +10,12 @@ function [A, t, steps] = Simplexealo(A)
 	steps = 0;
 	while  i, j ~= 0;
 		A =  pivotea(A, i,j);
-		[i,j, epi] = encuentra_pivote(A);     
+		[i,j, epi] = encuentra_pivote(A);
+
+		% Guardando metadatos
 		steps = steps + 1;
+		Is = [Is; i]; Js = [Js; j];
+		Intermedias(:, :, steps) = A;
 
 		if isnan(epi)
 			break
