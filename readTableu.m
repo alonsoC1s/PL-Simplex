@@ -26,6 +26,11 @@ function A = readTableu(filename)
 
 	bes = T{1:m-1, n}; % Recupera vector b ignorando el ultimo elemento porque es cero
 	costos = T{m,1:n-2};% Recupera costos de función obj.
+  
+  % Estamos maximizando, entonces invierte costos
+  if T{m, n} == 1
+    costos = -costos
+  end
 
 	% Checamos si todos los b_i son positivos, y sin no es asi modficamos
 	% la restricción para que se cumpla
