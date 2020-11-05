@@ -42,16 +42,20 @@ function A = readTableu(filename)
 	end
 	
 	% Convirtiendo desigualdades a una matriz de "aches". (H)olguras y (e)xcesos
-	Hs = diag(rests_n);
+	Hs = diag(rests_n)
 	% Verificamos si el origen es parte de la región factible
 	len_bes = length(bes); len_rests = length(rests_n);
 	if len_rests > 0
-		paddedH = [Hs, zeros(len_rests, len_bes-len_rests); zeros(1, len_bes)]; % Hacemos Hs cuadradas para poder usar A \ b
-		paddedH, bes
+		% Hacemos Hs cuadrada para poder usar linsolve
+		paddedH = zeros(len_bes, len_bes);
+		paddedH(1:size(Hs,1), 1:size(Hs,2)) = Hs; 
+		% Verificamos si está el origen para ver si usar big M
 		bigM = any((paddedH \ bes) < 0); % Checa si existe solución positiva al sistema Hs * x = bes
 	else
 		% Con todas las restricciones de "=" checar si está el origen se reduce a ver si hay solución positiva al sistema Ax=b
+		% TODO: No se ha verificado la validez de este argumento.
 		bigM = any((A_p \ bes) < 0);
+	end
 
 	% Si es necesario usar bigM la acompletamos en este paso. Si no, regresar matriz estándar
 	if bigM
