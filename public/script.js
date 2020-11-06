@@ -62,7 +62,8 @@ function readResult() {
  */
 function showResult(data) {
   const display = $('#display').text('')
-  for (const iter of data) {
+  for (let i = 0; i < data.length; i++) {
+    const iter = data[i]
     const div = $('<div>')
     // Muestra la iteración
     div.append($('<p>').text(`Iteración ${iter.iter}`))
@@ -97,6 +98,11 @@ function showResult(data) {
     thead.append(trhead)
     // Agrega la tabla al bloque
     div.append(table)
+
+    // Si es la última tabla, entonces sacamos los valores de variables
+    if (i === data.length - 1) {
+      
+    }
 
     // Finalmente agrega div
     display.append(div)
@@ -140,6 +146,7 @@ function generateObjective() {
   const numVariables = Number($('#numVariables').val())
   // Genera función objetivo
   const div = $('#objective').text('')
+  $('#restrictions').text('')
   let text
   for (let i = 1; i <= numVariables; i++) {
     div.append($('<input>').addClass('form-control').attr('type', 'number'))
