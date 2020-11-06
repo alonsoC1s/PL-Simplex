@@ -29,5 +29,5 @@ function [i, j, epi] = encuentra_pivote(A)
     Idx = double(Aj > 0);
     Idx(Idx==0) = nan;
     epsilons = b ./ (Aj .* Idx); % Dividiendo b entre los coefs de col. A no-negativos 
-    [epi, i] = min(epsilons(not(isinf(epsilons)))); % Puede regresar vector vacío en i => no hay solución
+    [epi, i] = min(epsilons); % Puede regresar vector vacío en i => no hay solución
 end 
