@@ -21,16 +21,18 @@ function A = readTableu(filename)
 			rests_n = [rests_n; 1];
 		elseif restriccion == ">="
 			rests_n = [rests_n; -1];
+		elseif restriccion == "="
+			rests_n = [rests_n; 0];
 		end
 	end
 
 	bes = T{1:m-1, n}; % Recupera vector b ignorando el ultimo elemento porque es cero
 	costos = T{m,1:n-2};% Recupera costos de función obj.
   
-  % Estamos maximizando, entonces invierte costos
-  if T{m, n} == 1
-    costos = -costos
-  end
+	% Estamos maximizando, entonces invierte costos
+	if T{m, n} == 1
+	  costos = -costos
+	end
 
 	% Checamos si todos los b_i son positivos, y sin no es asi modficamos
 	% la restricción para que se cumpla
@@ -62,6 +64,9 @@ function A = readTableu(filename)
 		bigM = any((A_p \ bes) < 0);
 	end
 
+	% Recortamos las columnas de 0's que pudieron haber quedado en Hs
+	Hs = Hs(:, any(Hs));
+
 	% Si es necesario usar bigM la acompletamos en este paso. Si no, regresar matriz estándar
 	if bigM
 		% Creando matriz de M's
@@ -71,7 +76,7 @@ function A = readTableu(filename)
 		% Dejando la identidad de una vez restando a costos relativos small_m
 		costos = costos - small_m * sum(A_p);
 		% Concatenando y retornando
-		Hs = [Hs; zeros(1, length(Hs))]; % rellenando Hs para que coincida la forma
+		% Hs = [Hs; zeros(1, length(Hs))]; % rellenando Hs para que coincida la forma
 		A = [A_p, Hs, M, bes; costos, zeros(1, size(Hs,2)), zeros(1,m)];
 	else
 		% Concatenando y retornando
