@@ -62,11 +62,17 @@ function readResult() {
  */
 function showResult(data) {
   const display = $('#display').text('')
-  for (let i = 0; i < data.length; i++) {
-    const iter = data[i]
+  // No acotado
+  if (data.length === 0) {
+    display.text('Problema no acotado :(')
+    return
+  }
+  // Todo ok
+  for (let pos = 0; pos < data.length; pos++) {
+    const iter = data[pos]
     const div = $('<div>')
     // Muestra la iteración
-    div.append($('<p>').text(`Iteración ${iter.iter}`))
+    div.append($('<p>').text(pos < data.length - 1 ? `Iteración ${iter.iter}` : 'Tabla final'))
     // Muestra la matriz
     const matrix = iter.A
     const table = $('<table>').addClass('table table-bordered')
@@ -74,13 +80,14 @@ function showResult(data) {
     const tbody = $('<tbody>')
     table.append(thead)
     table.append(tbody)
-    for (let row = 0; row < matrix.length; row++) {
+    // Agrega datos de la tabla simplex
+    for (let i = 0; i < matrix.length; i++) {
       const tr = $('<tr>')
-      for (let col = 0; col < matrix[row].length; col++) {
-        const val = matrix[row][col]
+      for (let j = 0; j < matrix[i].length; j++) {
+        const val = matrix[i][j]
         const td = $('<td>').text(Number.isInteger(val) ? val : val.toFixed(3))
         // Agrega el pivote
-        if (iter.i - 1 === row && iter.j - 1 === col)
+        if (iter.i - 1 === i && iter.j - 1 === j)
           td.addClass('pivote')
         tr.append(td)
       }
@@ -100,10 +107,38 @@ function showResult(data) {
     div.append(table)
 
     // Si es la última tabla, entonces sacamos los valores de variables
-    if (i === data.length - 1) {
-      
+    if (pos === data.length - 1) {
+      const variables = {}
+      // Pasa columna por columna ignorando la última
+      for (let col = 0; col < matrix[0].length - 1; col++) {
+        let nonZeros = 0
+        let pivote = -1
+        for (let i = 0; i < matrix.length; i++) {
+          // Cuenta cuántos zeros hay en la columna
+          if (matrix[i][col] !== 0)
+            nonZeros++
+          // Busca pivote
+          if (matrix[i][col] === 1)
+            pivote = i
+        }
+        // Checa si hubo pivote, entonces aggara el valor de b correspondiente
+        if (nonZeros === 1 && pivote >= 0)
+          variables[col] = matrix[pivote][matrix[0].length - 1]
+        else variables[col] = 0
+      }
+      // Imprime los valores de las variables
+      const ul = $('<ul>').addClass('variables')
+      for (const num in variables) {
+        let val = variables[num]
+        val = Number.isInteger(val) ? val : val.toFixed(3)
+        ul.append($('<li>').text('x').append($('<sub>').text(Number(num) + 1)).append(` = ${val}`))
+      }
+      // Agrega zeta
+      let val = matrix[matrix.length - 1][matrix[0].length - 1]
+      val = Number.isInteger(val) ? val : val.toFixed(3)
+      ul.append($('<li>').text(`z = ${val}`))
+      div.append(ul)
     }
-
     // Finalmente agrega div
     display.append(div)
   }

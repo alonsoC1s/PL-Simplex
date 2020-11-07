@@ -55,10 +55,17 @@ input::-webkit-inner-spin-button {
 
 /** Pivote **/
 #display .table tbody .pivote {
-  color: red;
+  background-color: #f5cece;
 }
 
 /** z **/
 #display .table tbody tr:last-child td:last-child {
   font-weight: bold;
+}
+
+/** Variables **/
+#display .variables li {
+  display: inline-block;
+  list-style-type: none;
+  padding: 10px;
 }
