@@ -22,13 +22,6 @@ function [A, t, steps, Is, Js, Intermedias] = Simplexealo(A)
 			disp("epi es nan. No hay sol.")
 			break
 		end
-
-		% encuentra_piv encontró infinidad de sols. Dejamos última iteración para llegar a una de ellas
-		if epi == 0
-			A = pivotea(A, i, j);
-			disp('epi = 0')
-			break
-		end
 	end
 	t = toc(tStart);
 
