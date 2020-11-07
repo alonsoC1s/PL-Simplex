@@ -37,18 +37,21 @@ async function solveLinearProblem(lp) {
   const csv = getCSV(lp)
   // Guarda en el archivo
   await fs.writeFile('tablas/server_input.csv', csv, err => {
-    if (err) console.error(err)
+    if (err) {
+      console.error(err)
+      return { res: 'File error.' }
+    }
   })
   // Luego corre matlab
   return new Promise(resolve => {
-    exec("matlab -batch \"Simplx('tablas/server_input.csv', true)\"", (error, stdout, stderr) => {
+    exec("matlab -batch \"Simplx(\\\"tablas/server_input.csv\\\", true)\"", (error, stdout, stderr) => {
       if (error) {
         console.log(`error: ${error.message}`);
-        return;
+        return { res: 'Matlab error.' };
       }
       if (stderr) {
         console.log(`stderr: ${stderr}`);
-        return;
+        return { res: 'str error.' };
       }
       resolve({ res: stdout })
     });
