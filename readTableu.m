@@ -73,11 +73,15 @@ function A = readTableu(filename)
 		M = diag(ones(1,m-1));
 		fprintf("Utilizando metodo de la gran M con M=%d", small_m)
 
-		% Dejando la identidad de una vez restando a costos relativos small_m
-		costos = costos - small_m * sum(A_p);
+		% Pivoteando para obtener identidad. Estrategia similiar a pivotea.m
+		E = eye(m)
+	       	E(m, :) = [-small_m * ones(1, m-1), 1]
+
 		% Concatenando y retornando
 		% Hs = [Hs; zeros(1, length(Hs))]; % rellenando Hs para que coincida la forma
-		A = [A_p, Hs, M, bes; costos, zeros(1, size(Hs,2)), zeros(1,m)];
+		[costos, zeros(1, size(Hs,2)), small_m * ones(1, size(M,2)), 0]
+		A = [A_p, Hs, M, bes; costos, zeros(1, size(Hs,2)), small_m * ones(1, size(M,2)), 0];
+		A = E*A
 	else
 		% Concatenando y retornando
 		A_p, Hs, bes, costos
