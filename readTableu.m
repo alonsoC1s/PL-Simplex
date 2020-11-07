@@ -70,7 +70,7 @@ function A = readTableu(filename)
 	% Si es necesario usar bigM la acompletamos en este paso. Si no, regresar matriz estándar
 	if bigM
 		% Creando matriz de M's
-		small_m = 100 * max(A_p, [], 'all'); % max de todo A no por columnas
+		small_m = 100 * max(A_p, [], 'all') % max de todo A no por columnas
 		M = diag(ones(1,m-1));
 
 		% Dejando la identidad de una vez restando a costos relativos small_m
