@@ -1,4 +1,4 @@
-function Simplx(filename, varargin)
+function A = Simplx(filename, varargin)
 
     % Verificando argumentos de ejecucion
     p = inputParser;
@@ -7,11 +7,12 @@ function Simplx(filename, varargin)
     parse(p,filename, varargin{:})
 
     % Ingiriendo tabla de csv
-    A = readTableu(filename);
+    [A, bigM] = readTableu(filename)
     tOrig = A;
 
     % Aplicando simplex y guardando resultados
-    [A, t, steps, Is, Js, Interms] = Simplexealo(A);
+    [A, t, steps, Is, Js, Interms] = Simplexealo(A, bigM);
+    A;
 
     if p.Results.servermode
         % Escribiendo a JSON para GUI

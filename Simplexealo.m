@@ -1,4 +1,4 @@
-function [A, t, steps, Is, Js, Intermedias] = Simplexealo(A)
+function [A, t, steps, Is, Js, Intermedias] = Simplexealo(A, bigM)
 
 	% Metadatos de pivoteo
 	Is = []; Js = []; Intermedias = [];
@@ -27,7 +27,7 @@ function [A, t, steps, Is, Js, Intermedias] = Simplexealo(A)
 
 	[m, n] = size(A);
 	% Checando condiciones de terminación de simplex
-	if epi == 0
+	if isempty(epi)
 		disp('Epi = 0')
 	    disp('Hay una infinidad de soluciones');
 	end  
@@ -36,6 +36,23 @@ function [A, t, steps, Is, Js, Intermedias] = Simplexealo(A)
 		disp('No hay pivote posible')
 		disp('El problema no está acotado');
 	else
+
+	if bigM
+		% Checamos si hau algún y en la base aún
+		M = A(:, n-m+1:n-1)
+		% Checamos si hay chance siquiera de tener una columna canonica
+		% Estrategia: Si la columna suma != 1 no hay forma de que sea canonica. Si suma 1 checamos con más cuidado
+		idx_unos = find((sum(M) == 1));
+
+		if not(isempty(idx_unos))
+			% Checamos las columnas que sumaron 1
+			for uno = idx_unos
+				col = M(:, uno);
+				cuantos_unos = find(col);
+				disp("Se usó gran M y no se pudo sacar alguna y de la base. La región factible es vacía.")
+			end
+		end
+	end
     
 	% Mostrando solucion final
 	% Recuperamos matriz de variables de decisión y checamos cuales son básicas
