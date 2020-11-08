@@ -9,8 +9,8 @@ function [A, t, steps, Is, Js, Intermedias] = Simplexealo(A)
 	 
 	steps = 0;
 	while  i, j ~= 0 ;
-		A =  pivotea(A, i,j);
-		[i,j, epi] = encuentra_pivote(A);
+		A =  pivotea(A, i,j)
+		[i,j, epi] = encuentra_pivote(A)
 
 		% Guardando metadatos
 		steps = steps + 1;
