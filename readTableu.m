@@ -84,6 +84,7 @@ function [A, bigM] = readTableu(filename)
 		A = E*A
 	else
 		% Concatenando y retornando
+		% Aqui se está poniendo el error
 		A = [A_p, Hs, bes; costos, zeros(1,size(Hs, 2)), 0];
     end
     

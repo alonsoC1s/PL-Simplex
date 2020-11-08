@@ -1,4 +1,4 @@
-function [A, t, steps, Is, Js, Intermedias] = Simplexealo(A, bigM)
+function [A, sol, t, steps, Is, Js, Intermedias] = Simplexealo(A, bigM)
 
 	% Metadatos de pivoteo
 	Is = []; Js = []; Intermedias = [];
@@ -35,8 +35,10 @@ function [A, t, steps, Is, Js, Intermedias] = Simplexealo(A, bigM)
 	if isnan(epi)
 		disp('No hay pivote posible')
 		disp('El problema no está acotado');
+		sol = [];
 	else
 
+	% Checando si el problema es infactible
 	if bigM
 		% Checamos si hau algún y en la base aún
 		M = A(:, n-m+1:n-1)
@@ -48,8 +50,10 @@ function [A, t, steps, Is, Js, Intermedias] = Simplexealo(A, bigM)
 			% Checamos las columnas que sumaron 1
 			for uno = idx_unos
 				col = M(:, uno);
-				cuantos_unos = find(col);
-				disp("Se usó gran M y no se pudo sacar alguna y de la base. La región factible es vacía.")
+				cuantos_unos = length(find(col));
+				if cuantos_unos == 1
+					disp("Se usó gran M y no se pudo sacar alguna y de la base. La región factible es vacía.")
+				end
 			end
 		end
 	end
@@ -59,16 +63,20 @@ function [A, t, steps, Is, Js, Intermedias] = Simplexealo(A, bigM)
 	vars = A(:, 1:n-m);
 	b = A(1:m-1, n); 
 
-	% Usamos find para enontrar entradas > 0. Si hay más de n-m no puede ser identidad completa y checamos 1 por 1
-	[I, J, Vals] = find(vars); % Encuentra todas las entradas > 0 de vars
-	[unos, basura] = size(I);
-
-	if unos == n-m % Se dio que ambas fueron básicas i.e solo m-n 1's
-		display("Todas las variables de decision son basicas")
-		sol = b(I)
-	elseif unos >= n-m
-		display("Una o mas variables no son basicas")
-		
-		% Checamos cuales si coinciden con una identidad
+	% Recuperando las soluciones con la estrategia de arriba para checar columnas canónicas
+	idx_unos = find((sum(vars) == 1));
+	sol = zeros(1, m-1);
+	if isempty(idx_unos)
+		disp("Ninguna var. de decisión básica. Sol:0")
+	else
+		for uno = idx_unos
+			col = vars(:, uno);
+			idx_unos_en_col = find(col);
+			cuantos_unos = length(idx_unos_en_col);
+			if cuantos_unos == 1
+				fprintf("La variable x_%d es básica\n", idx_unos_en_col)
+				sol(idx_unos_en_col) = b(idx_unos_en_col);
+			end
+		end
 	end
 end

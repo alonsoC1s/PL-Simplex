@@ -11,8 +11,9 @@ function A = Simplx(filename, varargin)
     tOrig = A;
 
     % Aplicando simplex y guardando resultados
-    [A, t, steps, Is, Js, Interms] = Simplexealo(A, bigM);
+    [A, sol, t, steps, Is, Js, Interms] = Simplexealo(A, bigM);
     A;
+    sol
 
     if p.Results.servermode
         % Escribiendo a JSON para GUI
