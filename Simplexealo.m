@@ -1,4 +1,4 @@
-function [A, sol, t, steps, Is, Js, Intermedias] = Simplexealo(A, bigM)
+function [A, sol, t, steps, Is, Js, Intermedias] = Simplexealo(A, bigM, n_vars)
 
 	% Metadatos de pivoteo
 	Is = []; Js = []; Intermedias = [];
@@ -9,8 +9,8 @@ function [A, sol, t, steps, Is, Js, Intermedias] = Simplexealo(A, bigM)
 	 
 	steps = 0;
 	while  i, j ~= 0 ;
-		A =  pivotea(A, i,j)
-		[i,j, epi] = encuentra_pivote(A)
+		A =  pivotea(A, i,j);
+		[i,j, epi] = encuentra_pivote(A);
 
 		% Guardando metadatos
 		steps = steps + 1;
@@ -60,22 +60,23 @@ function [A, sol, t, steps, Is, Js, Intermedias] = Simplexealo(A, bigM)
     
 	% Mostrando solucion final
 	% Recuperamos matriz de variables de decisión y checamos cuales son básicas
-	vars = A(:, 1:n-m);
+	vars = A(:, 1:n_vars); 
 	b = A(1:m-1, n); 
 
 	% Recuperando las soluciones con la estrategia de arriba para checar columnas canónicas
 	idx_unos = find((sum(vars) == 1));
-	sol = zeros(1, m-1);
+	sol = zeros(1, n_vars);
 	if isempty(idx_unos)
 		disp("Ninguna var. de decisión básica. Sol:0")
 	else
-		for uno = idx_unos
-			col = vars(:, uno);
+		% Notacion: uno_j indice de columna y x_j. uno_i, indice de renglón y se usa para buscar en b
+		for uno_j = idx_unos
+			col = vars(:, uno_j);
 			idx_unos_en_col = find(col);
 			cuantos_unos = length(idx_unos_en_col);
 			if cuantos_unos == 1
-				fprintf("La variable x_%d es básica\n", idx_unos_en_col)
-				sol(idx_unos_en_col) = b(idx_unos_en_col);
+				fprintf("La variable x_%d es básica\n", uno_j)
+				sol(uno_j) = b(idx_unos_en_col);
 			end
 		end
 	end

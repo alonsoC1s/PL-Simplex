@@ -7,11 +7,11 @@ function A = Simplx(filename, varargin)
     parse(p,filename, varargin{:})
 
     % Ingiriendo tabla de csv
-    [A, bigM] = readTableu(filename)
+    [A, bigM, n_vars] = readTableu(filename);
     tOrig = A;
 
     % Aplicando simplex y guardando resultados
-    [A, sol, t, steps, Is, Js, Interms] = Simplexealo(A, bigM);
+    [A, sol, t, steps, Is, Js, Interms] = Simplexealo(A, bigM, n_vars);
     A;
     sol
 

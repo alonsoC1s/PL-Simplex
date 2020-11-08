@@ -1,7 +1,8 @@
-function [A, bigM] = readTableu(filename)
+function [A, bigM, n_vars] = readTableu(filename)
 
 	T = readtable(filename)
 	[m, n] = size(T);
+	n_vars = n-2
 
 	% Se assume una tabla con una forma como 
 	% 1, 2, 3, "<=", 1 
@@ -31,7 +32,7 @@ function [A, bigM] = readTableu(filename)
   
 	% Estamos maximizando, entonces invierte costos
 	if T{m, n} == 1
-	  costos = -costos
+	  costos = -costos;
 	end
 
 	% Checamos si todos los b_i son positivos, y sin no es asi modficamos
@@ -81,7 +82,7 @@ function [A, bigM] = readTableu(filename)
 		% Hs = [Hs; zeros(1, length(Hs))]; % rellenando Hs para que coincida la forma
 		% [costos, zeros(1, size(Hs,2)), small_m * ones(1, size(M,2)), 0]
 		A = [A_p, Hs, M, bes; costos, zeros(1, size(Hs,2)), small_m * ones(1, size(M,2)), 0];
-		A = E*A
+		A = E*A;
 	else
 		% Concatenando y retornando
 		% Aqui se está poniendo el error
