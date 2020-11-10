@@ -30,6 +30,22 @@ function run() {
 }
 
 /**
+ * Carga un archivo csv y lo procesa en matlab.
+ */
+function loadCSV() {
+  const reader = new FileReader();
+  const input = document.createElement('input')
+  input.type = 'file'
+  input.onchange = e => {
+    const f = e.target.value
+    console.log(f)
+  }
+  // Da click al botón
+  input.click()
+      
+}
+
+/**
  * Lee el resultado generado en matlab.
  */
 function readResult() {
