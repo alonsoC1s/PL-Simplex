@@ -1,4 +1,4 @@
-function [A, t, steps, Is, Js, Intermedias] = Simplexealo(A)
+function [A, sol, z, t, steps, Is, Js, Intermedias] = Simplexealo(A, bigM, n_vars)
 
 	% Metadatos de pivoteo
 	Is = []; Js = []; Intermedias = [];
@@ -27,7 +27,7 @@ function [A, t, steps, Is, Js, Intermedias] = Simplexealo(A)
 
 	[m, n] = size(A);
 	% Checando condiciones de terminación de simplex
-	if epi == 0
+	if isempty(epi)
 		disp('Epi = 0')
 	    disp('Hay una infinidad de soluciones');
 	end  
@@ -35,23 +35,52 @@ function [A, t, steps, Is, Js, Intermedias] = Simplexealo(A)
 	if isnan(epi)
 		disp('No hay pivote posible')
 		disp('El problema no está acotado');
+		sol = [];
 	else
+
+	% Checando si el problema es infactible
+	if bigM
+		% Checamos si hau algún y en la base aún
+		M = A(:, n-m+1:n-1)
+		% Checamos si hay chance siquiera de tener una columna canonica
+		% Estrategia: Si la columna suma != 1 no hay forma de que sea canonica. Si suma 1 checamos con más cuidado
+		idx_unos = find((sum(M) == 1));
+
+		if not(isempty(idx_unos))
+			% Checamos las columnas que sumaron 1
+			for uno = idx_unos
+				col = M(:, uno);
+				cuantos_unos = length(find(col));
+				if cuantos_unos == 1
+					disp("Se usó gran M y no se pudo sacar alguna y de la base. La región factible es vacía.")
+				end
+			end
+		end
+	end
     
 	% Mostrando solucion final
 	% Recuperamos matriz de variables de decisión y checamos cuales son básicas
-	vars = A(:, 1:n-m);
+	vars = A(:, 1:n_vars); 
 	b = A(1:m-1, n); 
 
-	% Usamos find para enontrar entradas > 0. Si hay más de n-m no puede ser identidad completa y checamos 1 por 1
-	[I, J, Vals] = find(vars); % Encuentra todas las entradas > 0 de vars
-	[unos, basura] = size(I);
-
-	if unos == n-m % Se dio que ambas fueron básicas i.e solo m-n 1's
-		display("Todas las variables de decision son basicas")
-		sol = b(I)
-	elseif unos >= n-m
-		display("Una o mas variables no son basicas")
-		
-		% Checamos cuales si coinciden con una identidad
+	% Recuperando las soluciones con la estrategia de arriba para checar columnas canónicas
+	idx_unos = find((sum(vars) == 1));
+	sol = zeros(1, n_vars);
+	if isempty(idx_unos)
+		disp("Ninguna var. de decisión básica. Sol:0")
+	else
+		% Notacion: uno_j indice de columna y x_j. uno_i, indice de renglón y se usa para buscar en b
+		for uno_j = idx_unos
+			col = vars(:, uno_j);
+			idx_unos_en_col = find(col);
+			cuantos_unos = length(idx_unos_en_col);
+			if cuantos_unos == 1
+				fprintf("La variable x_%d es básica\n", uno_j)
+				sol(uno_j) = b(idx_unos_en_col);
+			end
+		end
 	end
 end
+
+% valor de la fn. objetivo
+z = -A(end, end)
