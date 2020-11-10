@@ -1,4 +1,4 @@
-function [A, sol, t, steps, Is, Js, Intermedias] = Simplexealo(A, bigM, n_vars)
+function [A, sol, z, t, steps, Is, Js, Intermedias] = Simplexealo(A, bigM, n_vars)
 
 	% Metadatos de pivoteo
 	Is = []; Js = []; Intermedias = [];
@@ -81,3 +81,6 @@ function [A, sol, t, steps, Is, Js, Intermedias] = Simplexealo(A, bigM, n_vars)
 		end
 	end
 end
+
+% valor de la fn. objetivo
+z = -A(end, end)

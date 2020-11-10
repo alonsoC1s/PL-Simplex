@@ -1,4 +1,4 @@
-function A = Simplx(filename, varargin)
+function [A, sol, z] = Simplx(filename, varargin)
 
     % Verificando argumentos de ejecucion
     p = inputParser;
@@ -11,9 +11,9 @@ function A = Simplx(filename, varargin)
     tOrig = A;
 
     % Aplicando simplex y guardando resultados
-    [A, sol, t, steps, Is, Js, Interms] = Simplexealo(A, bigM, n_vars);
+    [A, sol, z, t, steps, Is, Js, Interms] = Simplexealo(A, bigM, n_vars);
     A;
-    sol
+    sol,z
 
     if p.Results.servermode
         % Escribiendo a JSON para GUI
